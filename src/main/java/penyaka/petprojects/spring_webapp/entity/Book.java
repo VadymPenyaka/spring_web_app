@@ -2,6 +2,7 @@ package penyaka.petprojects.spring_webapp.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,10 +12,13 @@ public class Book {
     private long id;
     private String title;
     private String isbn;
-    @ManyToMany(mappedBy = "books")
+    @ManyToOne
+    private Publisher publisher;
+    @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
-    inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Author> authors = new HashSet<>();
+
 
     public long getId() {
         return id;
@@ -47,6 +51,14 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     @Override
